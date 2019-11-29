@@ -1,10 +1,13 @@
+from builtins import range
+
 from Agent import Agent
 from Tweet import Tweet
+
 
 class Environment:
     def __init__(self, initial_population_size):
         self.population = [Agent() for i in range(initial_population_size)]
-
+        # TODO: initialise friendship values
 
     def tweet(self, agent):
         """
@@ -17,7 +20,6 @@ class Environment:
             agent.tweet_response(tweet)
         pass
 
-
     def run(self):
         """
         Loop to simulate time steps
@@ -28,4 +30,3 @@ class Environment:
                 # TODO: call agent update function
                 if agent.send_tweet():
                     self.tweet(agent)
-                pass
