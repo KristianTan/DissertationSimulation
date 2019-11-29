@@ -15,7 +15,7 @@ class Agent:
         """
         pass
 
-    def send_tweet(self):
+    def check_send_tweet(self):
         """
         Return true if this agent is going to tweet this time step
         :return: boolean

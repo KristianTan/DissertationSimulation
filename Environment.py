@@ -1,4 +1,4 @@
-from builtins import range
+from builtins import range, KeyboardInterrupt
 
 from Agent import Agent
 from Tweet import Tweet
@@ -18,15 +18,18 @@ class Environment:
         tweet = Tweet(agent)
         for agent in self.population:
             agent.tweet_response(tweet)
-        pass
 
     def run(self):
         """
-        Loop to simulate time steps
+        Loop to simulate time steps until ctrl + c is pressed
         :return: None
         """
-        while True:
-            for agent in self.population:
-                # TODO: call agent update function
-                if agent.send_tweet():
-                    self.tweet(agent)
+        try:
+            while True:
+                for agent in self.population:
+                    # TODO: call agent update function
+                    if agent.check_send_tweet():
+                        self.tweet(agent)
+        except KeyboardInterrupt:
+            # TODO: Output data somewhere? Unless data is outputted as simulation is running
+            print('Simulation ended')
