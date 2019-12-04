@@ -1,4 +1,4 @@
-from builtins import range, KeyboardInterrupt
+from builtins import range, KeyboardInterrupt, str
 
 from Agent import Agent
 from Tweet import Tweet
@@ -8,6 +8,8 @@ class Environment:
     def __init__(self, initial_population_size):
         self.population = [Agent() for i in range(initial_population_size)]
         # TODO: initialise friendship values
+        for agent in self.population:
+            agent.initialise_friendship_values(self.population)
 
     def tweet(self, agent):
         """
