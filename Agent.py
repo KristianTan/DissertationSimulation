@@ -5,7 +5,15 @@ import Tweet
 
 
 def map_value(value, input_min, input_max, output_min, output_max):
-    # Figure out how 'wide' each range is
+    """
+    Takes a value and maps it between a given range
+    :param value: Float
+    :param input_min: Float
+    :param input_max: Float
+    :param output_min: Float
+    :param output_max: Float
+    :return: Float
+    """
     input_range = input_max - input_min
     output_range = output_max - output_min
 
