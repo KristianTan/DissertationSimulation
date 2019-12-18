@@ -5,6 +5,7 @@ import Tweet
 
 
 def map_value(value, input_min, input_max, output_min, output_max):
+    # TODO: Change this to normalise() function.  Take only input params, outputs always -1, 1
     """
     Takes a value and maps it between a given range
     :param value: Float
@@ -24,20 +25,13 @@ def map_value(value, input_min, input_max, output_min, output_max):
     return output_min + (value_scaled * output_range)
 
 
-def check_send_tweet():
-    """
-    Return true if this agent is going to tweet this time step
-    :return: boolean
-    """
-    return random.randint(0, 10) is 0
-
-
 class Agent:
     def __init__(self):
         self.opinion_rating = random.uniform(-1, 1)
         self.friendship_values = {}
 
     def initialise_friendship_values(self, population):
+        # TODO: Refactor this to return a dict, and call it from the constructor
         """
         Set a friendship rating for all other agents.  Agents with similar opinions are more likely to have a higher friendship rating
         :param population: List
@@ -48,6 +42,7 @@ class Agent:
                 lower, upper = -1, 1
                 # Get the difference in opinion ratings
                 opinion_difference = abs(self.opinion_rating - agent.opinion_rating)
+                # TODO: Check this
                 # Get a value to adjust upper and lower bounds by, bigger difference = smaller adjustment, and vice versa
                 adjustment = abs(1 - opinion_difference)
 
@@ -62,11 +57,21 @@ class Agent:
                 friendship_value = random.uniform(lower, abs(upper))
                 self.friendship_values[agent] = map_value(friendship_value, -1, 2, -1, 1)
 
+    @staticmethod
+    def check_send_tweet():
+        """
+        Return true if this agent is going to tweet this time step
+        :return: boolean
+        """
+        return random.randint(0, 10) is 0
+
     def tweet_response(self, tweet):
         """
-        Update friendship values and opinion rating based off tweet
+        Update opinion rating based off opinion value of tweet and friendship value of sender.
+        Update friendship rating based off opinion rating of tweet
         :param tweet: Tweet
         :return: None
         """
-        pass
+        opinion_difference = self.opinion_rating - tweet.opinion_rating
+        print(opinion_difference)
 

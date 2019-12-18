@@ -10,15 +10,16 @@ class Environment:
         for agent in self.population:
             agent.initialise_friendship_values(self.population)
 
-    def tweet(self, agent):
+    def tweet(self, sender):
         """
         Method to simulate a particular agent tweeting
-        :param agent: Agent
+        :param sender: Agent
         :return: None
         """
-        tweet = Tweet(agent)
+        tweet = Tweet(sender)
         for agent in self.population:
-            agent.tweet_response(tweet)
+            if agent is not sender:
+                agent.tweet_response(tweet)
 
     def run(self):
         """
