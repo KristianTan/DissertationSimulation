@@ -29,8 +29,7 @@ class Environment:
         """
         try:
             while True:
-                for agent in self.population:
-                    self.tweet(self.select_tweeter())
+                self.tweet(self.select_tweeter())
         except KeyboardInterrupt:
             # TODO: Output data somewhere? Unless data is outputted as simulation is running
             print('Simulation ended')
