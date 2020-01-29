@@ -1,4 +1,5 @@
-from builtins import range, KeyboardInterrupt, str
+from builtins import range, KeyboardInterrupt
+from random import randint
 
 from Agent import Agent
 from Tweet import Tweet
@@ -29,9 +30,10 @@ class Environment:
         try:
             while True:
                 for agent in self.population:
-                    # TODO: call agent update function
-                    if agent.check_send_tweet():
-                        self.tweet(agent)
+                    self.tweet(self.select_tweeter())
         except KeyboardInterrupt:
             # TODO: Output data somewhere? Unless data is outputted as simulation is running
             print('Simulation ended')
+
+    def select_tweeter(self):
+        return self.population[randint(0, len(self.population) - 1)]
