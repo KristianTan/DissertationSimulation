@@ -38,10 +38,9 @@ class Agent:
         data = {'opinion_rating': self.opinion_rating,
                 'friendship_values': self.friendship_values.values()}
 
-        data_frame = pandas.DataFrame(data=data, index=[0])
+        data_frame = pandas.DataFrame(data=data)
         data_frame.to_csv('output/' + str(self.id))
         print(data_frame)
-        pass
 
 
 

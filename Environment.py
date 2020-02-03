@@ -7,6 +7,7 @@ from Tweet import Tweet
 
 class Environment:
     def __init__(self, initial_population_size):
+        self.iterations = 0
         self.population = [Agent(i) for i in range(initial_population_size)]
         for agent in self.population:
             agent.initialise_friendship_values(self.population)
@@ -27,6 +28,7 @@ class Environment:
         """
         try:
             while True:
+                self.iterations += 1
                 tweet = self.tweet(self.select_tweeter())
                 for agent in self.population:
                     agent.output_data()
