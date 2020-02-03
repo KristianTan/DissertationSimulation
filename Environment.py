@@ -7,20 +7,19 @@ from Tweet import Tweet
 
 class Environment:
     def __init__(self, initial_population_size):
-        self.population = [Agent() for i in range(initial_population_size)]
+        self.iterations = 0
+        self.population = [Agent(i) for i in range(initial_population_size)]
         for agent in self.population:
             agent.initialise_friendship_values(self.population)
 
-    def tweet(self, sender):
+    @staticmethod
+    def tweet(sender):
         """
         Method to simulate a particular agent tweeting
         :param sender: Agent
         :return: None
         """
-        tweet = Tweet(sender)
-        for agent in self.population:
-            if agent is not sender:
-                agent.tweet_response(tweet)
+        return Tweet(sender)
 
     def run(self):
         """
@@ -29,7 +28,12 @@ class Environment:
         """
         try:
             while True:
-                self.tweet(self.select_tweeter())
+                self.iterations += 1
+                tweet = self.tweet(self.select_tweeter())
+                for agent in self.population:
+                    agent.output_data()
+                    if agent is not tweet.sender:
+                        agent.tweet_response(tweet)
         except KeyboardInterrupt:
             # TODO: Output data somewhere? Unless data is outputted as simulation is running
             print('Simulation ended')
