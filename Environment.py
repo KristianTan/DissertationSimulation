@@ -7,18 +7,18 @@ from Tweet import Tweet
 
 class Environment:
     def __init__(self, initial_population_size):
-        self.population = [Agent() for i in range(initial_population_size)]
+        self.population = [Agent(i) for i in range(initial_population_size)]
         for agent in self.population:
             agent.initialise_friendship_values(self.population)
 
-    def tweet(self, sender):
+    @staticmethod
+    def tweet(sender):
         """
         Method to simulate a particular agent tweeting
         :param sender: Agent
         :return: None
         """
         return Tweet(sender)
-
 
     def run(self):
         """
