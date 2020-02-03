@@ -1,6 +1,7 @@
 import random
 from builtins import abs, open, float
 import Tweet
+import pandas
 
 
 class Agent:
@@ -10,13 +11,12 @@ class Agent:
 
     def initialise_friendship_values(self, population):
         """
-        Set a friendship rating for all other agents.  Agents with similar opinions are more likely to have a higher friendship rating
+        Set a random friendship rating for all other agents.
         :param population: List
         :return: None
         """
         for agent in population:
             if agent is not self:
-                # TODO: Initialise friendship ratings randomly or from a seed i.e not based on opinion
                 self.friendship_values[agent] = random.uniform(-1, 1)
 
     def tweet_response(self, tweet):
@@ -33,6 +33,14 @@ class Agent:
         y = self.opinion_rating + (friendship_rating + 1) * opinion_difference
         pass
 
+    def output_data(self):
+        data = {'opinion_rating': self.opinion_rating,
+                'friendship_values': self.friendship_values.values()}
+
+        dataframe = pandas.DataFrame(data=data)
+        dataframe.to_csv('output/agent' + str(self))
+        print(dataframe)
+        pass
 
 
 
