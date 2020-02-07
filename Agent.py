@@ -20,6 +20,16 @@ class Agent:
             if agent is not self:
                 self.friendship_values[agent.id] = random.uniform(-1, 1)
 
+        # Output initial data and column titles
+        data = {'opinion_rating': self.opinion_rating}
+        
+        for key in self.friendship_values:
+            data[key] = self.friendship_values[key]
+            
+        data_frame = pandas.DataFrame(data=data, index=[0])
+        data_frame.to_csv('logs/' + str(self.id) + '.csv', header=True, mode='w', index=False)
+
+
     def tweet_response(self, tweet):
         """
         Update opinion rating based off opinion value of tweet and friendship value of sender.
@@ -35,11 +45,13 @@ class Agent:
         pass
 
     def output_data(self):
-        data = {'opinion_rating': self.opinion_rating,
-                'friendship_values': self.friendship_values.values()}
+        data = {'opinion_rating': self.opinion_rating}
 
-        data_frame = pandas.DataFrame(data=data)
-        data_frame.to_csv('logs/' + str(self.id))
+        for key in self.friendship_values:
+            data[key] = self.friendship_values[key]
+
+        data_frame = pandas.DataFrame(data=data, index=[0])
+        data_frame.to_csv('logs/' + str(self.id) + '.csv', header=False, mode='a', index=False)
         print(data_frame)
 
 
