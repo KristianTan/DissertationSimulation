@@ -40,20 +40,46 @@ class Agent:
         opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
+        affector = (friendship_rating / tweet.opinion_rating) / 10
+        if affector < -1:
+            affector += 1
+        self.opinion_rating += affector
+
         if self.opinion_rating * tweet.opinion_rating > 0:
             """
             Agents agree, so increase friendship rating and move opinion rating further the same direction 
             based on friendship rating.  Higher friendship rating = greater affect on opinion
             """
+
+            if friendship_rating > 0:
+                # They are friends that agree so move opinion rating closer (- or +) to that of tweeter
+                affector = (friendship_rating / tweet.opinion_rating) / 10
+                if affector < -1:
+                    affector += 1
+                print(affector)
+            else:
+                # They agree but are not friends so increase friendship rating more
+                pass
+
+            # They agree so increase friendship rating
         else:
             """
             Agents disagree, so decrease friendship rating and move opinion rating further in opposite direction to
             the tweeter.
             """
 
-        x = (self.opinion_rating + ((friendship_rating + 1) / 2) * tweet.opinion_rating) / 2
-        y = self.opinion_rating + (friendship_rating + 1) * opinion_difference
-        pass
+            if friendship_rating > 0:
+                # They are friends that disagree so move opinion towards theirs
+                pass
+            else:
+                # Not friends who disagree so reduce friendship rating
+                pass
+
+            # They disagree so decrease friendship rating
+
+        # x = (self.opinion_rating + ((friendship_rating + 1) / 2) * tweet.opinion_rating) / 2
+        # y = self.opinion_rating + (friendship_rating + 1) * opinion_difference
+        # pass
 
     def output_data(self):
         data = {'opinion_rating': self.opinion_rating}
