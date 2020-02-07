@@ -40,6 +40,7 @@ class Agent:
         opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
+        # TODO: Needs checking
         affector = (friendship_rating / tweet.opinion_rating) / 10
         if affector < -1:
             affector += 1

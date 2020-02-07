@@ -35,7 +35,6 @@ class Environment:
                         agent.tweet_response(tweet)
                     agent.output_data()
         except KeyboardInterrupt:
-            # TODO: Output data somewhere? Unless data is outputted as simulation is running
             print('Simulation ended')
 
     def select_tweeter(self):
