@@ -20,13 +20,15 @@ class Agent:
             if agent is not self:
                 self.friendship_values[agent.id] = random.uniform(-1, 1)
 
+        # Output initial data and column titles
         data = {'opinion_rating': self.opinion_rating}
-
+        
         for key in self.friendship_values:
             data[key] = self.friendship_values[key]
-
+            
         data_frame = pandas.DataFrame(data=data, index=[0])
         data_frame.to_csv('logs/' + str(self.id) + '.csv', header=True, mode='w', index=False)
+
 
     def tweet_response(self, tweet):
         """
@@ -37,6 +39,7 @@ class Agent:
         """
         opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
         friendship_rating = self.friendship_values.get(tweet.sender.id)
+
         x = (self.opinion_rating + ((friendship_rating + 1) / 2) * tweet.opinion_rating) / 2
         y = self.opinion_rating + (friendship_rating + 1) * opinion_difference
         pass
