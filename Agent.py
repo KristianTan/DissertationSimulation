@@ -35,11 +35,13 @@ class Agent:
         pass
 
     def output_data(self):
-        data = {'opinion_rating': self.opinion_rating,
-                'friendship_values': self.friendship_values.values()}
+        data = {'opinion_rating': self.opinion_rating}
 
-        data_frame = pandas.DataFrame(data=data)
-        data_frame.to_csv('output/' + str(self.id))
+        for key in self.friendship_values:
+            data[key] = self.friendship_values[key]
+
+        data_frame = pandas.DataFrame(data=data, index=[0])
+        data_frame.to_csv('logs/' + str(self.id) + '.csv', header=True, mode='a', index=False)
         print(data_frame)
 
 
