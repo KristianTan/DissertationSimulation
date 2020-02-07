@@ -39,7 +39,7 @@ class Agent:
                 'friendship_values': self.friendship_values.values()}
 
         data_frame = pandas.DataFrame(data=data)
-        data_frame.to_csv('logs/' + str(self.id))
+        data_frame.to_csv('logs/' + str(self.id) + '.csv')
         print(data_frame)
 
 
