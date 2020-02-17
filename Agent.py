@@ -43,7 +43,7 @@ class Agent:
 
         # TODO: Needs checking
         # Sometimes there's big values < -.6 or > .6  || Happens when tweet.opinion_rating is very small.  (i.e. < 0.1 (I think))
-        opinion_modifier = (friendship_rating / tweet.opinion_rating) / 10
+        opinion_modifier = (friendship_rating / tweet.opinion_rating) / 20
         self.opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
 
         # TODO: Alter friendship values
