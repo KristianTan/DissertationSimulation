@@ -41,15 +41,11 @@ class Agent:
         """
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
-        # TODO: Needs checking
-        # Sometimes there's big values < -.6 or > .6  || Happens when tweet.opinion_rating is very small.  (i.e. < 0.1 (I think))
+        # Alter opinion rating based off tweet
         opinion_modifier = (friendship_rating / tweet.opinion_rating) / 20
         self.opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
 
-        # TODO: Alter friendship values
-        # If they disagree friendship value goes down and vice versa
-        # The closer the opinion ratings are to each other the bigger increase in friendship
-        # friendship_modifier = friendship_rating / opinion_difference
+        # Alter friendship values based on opinion
         opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
         friendship_modifier = (1 - opinion_difference) / 5
 
