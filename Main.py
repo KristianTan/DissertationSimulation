@@ -13,10 +13,12 @@ if __name__ == '__main__':
     if file_lines:
         initial_size = int(file_lines[0].replace('\n', ''))
         del file_lines[0]
+        agents = []
         for line in file_lines:
-            s = line.split('[')
-            opinion = s[0]
-            friendship_values_strings = str(s[1])[0:-1].split(',')
+            line = line.replace('\n', '')
+            agent_values = line.split('[')
+            opinion = agent_values[0]
+            friendship_values_strings = str(agent_values[1])[:-1].split(',')
             friendship_values = list(map(float, friendship_values_strings))
 
     print('Beginning simulation')
