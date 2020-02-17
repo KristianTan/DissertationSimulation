@@ -6,6 +6,7 @@ import pandas
 def limit_values(value):
     return max(min(1, value), -1)
 
+
 class Agent:
     def __init__(self, id):
         self.opinion_rating = random.uniform(-1, 1)
@@ -38,52 +39,28 @@ class Agent:
         :param tweet: Tweet
         :return: None
         """
-        opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
         # TODO: Needs checking
+        # Sometimes there's big values < -.6 or > .6  || Happens when tweet.opinion_rating is very small.  (i.e. < 0.1 (I think))
         opinion_modifier = (friendship_rating / tweet.opinion_rating) / 10
         self.opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
 
-        # TODO: Modify friendship value
-
         # TODO: Alter friendship values
+        # If they disagree friendship value goes down and vice versa
+        # The closer the opinion ratings are to each other the bigger increase in friendship
+        # friendship_modifier = friendship_rating / opinion_difference
+        opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
+        friendship_modifier = (1 - opinion_difference) / 5
 
-        # if self.opinion_rating * tweet.opinion_rating > 0:
-        #     """
-        #     Agents agree, so increase friendship rating and move opinion rating further the same direction
-        #     based on friendship rating.  Higher friendship rating = greater affect on opinion
-        #     """
-        #
-        #     if friendship_rating > 0:
-        #         # They are friends that agree so move opinion rating closer (- or +) to that of tweeter
-        #         opinion_modifier = (friendship_rating / tweet.opinion_rating) / 10
-        #         if opinion_modifier < -1:
-        #             opinion_modifier += 1
-        #         print(opinion_modifier)
-        #     else:
-        #         # They agree but are not friends so increase friendship rating more
-        #         pass
-        #
-        #     # They agree so increase friendship rating
-        # else:
-        #     """
-        #     Agents disagree, so decrease friendship rating and move opinion rating further in opposite direction to
-        #     the tweeter.
-        #     """
-        #
-        #     if friendship_rating > 0:
-        #         # They are friends that disagree so move opinion towards theirs
-        #         pass
-        #     else:
-        #         # Not friends who disagree so reduce friendship rating
-        #         pass
-        #
-        #     # They disagree so decrease friendship rating
+        # If agents disagree, reduce friendship value
+        if self.opinion_rating * tweet.opinion_rating < 0 < friendship_modifier:
+            friendship_modifier *= -1
+        friendship_rating += friendship_modifier
 
-        # x = (self.opinion_rating + ((friendship_rating + 1) / 2) * tweet.opinion_rating) / 2
-        # y = self.opinion_rating + (friendship_rating + 1) * opinion_difference
-        # pass
+        updated_friendship_rating = {tweet.sender.id: limit_values(friendship_rating)}
+        self.friendship_values.update(updated_friendship_rating)
+
     def output_data(self):
         data = {'opinion_rating': self.opinion_rating}
 
