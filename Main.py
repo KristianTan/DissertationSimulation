@@ -20,6 +20,9 @@ if __name__ == '__main__':
             opinion = agent_values[0]
             friendship_values_strings = str(agent_values[1])[:-1].split(',')
             friendship_values = list(map(float, friendship_values_strings))
+            # TODO: Be able to pass initial values to Agent constructor. Be able to handle instance where some friendship values are not passed.  i.e. initsl pop = 10 but only passed 5 friendship values
+            # Pass list of values or agents to Environment constructor.  Probably Agents?
+            # TODO: Be able to pass list of initialised agents to Environment constructor.  Be able to handle missing friendship values and not enough agents in list
 
     print('Beginning simulation')
     environment = Environment(10)
