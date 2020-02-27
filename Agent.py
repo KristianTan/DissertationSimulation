@@ -19,6 +19,8 @@ class Agent:
         for agent in population:
             if agent is not self:
                 self.friendship_values[agent.id] = random.uniform(-1, 1)
+            else:
+                self.friendship_values[agent.id] = 1
 
         # Output initial data and column titles
         data = {'opinion_rating': self.opinion_rating}
