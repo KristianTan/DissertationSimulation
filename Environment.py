@@ -33,7 +33,7 @@ class Environment:
                 for agent in self.population:
                     if agent is not tweet.sender:
                         agent.tweet_response(tweet)
-                    agent.output_data()
+                    agent.output_data(tweet)
         except KeyboardInterrupt:
             # TODO: Output data somewhere? Unless data is outputted as simulation is running
             print('Simulation ended')
