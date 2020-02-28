@@ -22,13 +22,18 @@ class Agent:
         for agent in population:
             if agent is not self:
                 self.friendship_values[agent.id] = random.uniform(-1, 1)
+            else:
+                self.friendship_values[agent.id] = 1
 
         # Output initial data and column titles to a csv
         data = {'opinion_rating': self.opinion_rating}
 
         for key in self.friendship_values:
             data[key] = self.friendship_values[key]
-
+            
+        data['tweeter'] = None
+        data['tweet_rating'] = None
+          
         data_frame = pandas.DataFrame(data=data, index=[0])
         data_frame.to_csv('logs/' + str(self.id) + '.csv', header=True, mode='w', index=False)
 
@@ -64,11 +69,14 @@ class Agent:
         self.friendship_values.update({tweet.sender.id: updated_friendship_value})
         self.opinion_rating = updated_opinion_rating
 
-    def output_data(self):
+    def output_data(self, tweet):
         data = {'opinion_rating': self.opinion_rating}
 
         for key in self.friendship_values:
             data[key] = self.friendship_values[key]
+
+        data['tweeter'] = tweet.sender.id
+        data['tweet_rating'] = tweet.opinion_rating
 
         data_frame = pandas.DataFrame(data=data, index=[0])
         data_frame.to_csv('logs/' + str(self.id) + '.csv', header=False, mode='a', index=False)
