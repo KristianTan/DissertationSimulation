@@ -3,7 +3,7 @@ from builtins import abs
 import pandas
 
 
-def limit_values(value, upper=1, lower=-1):
+def limit_values(value, upper: float = 1, lower: float = -1):
     return max(min(upper, value), lower)
 
 
@@ -39,19 +39,26 @@ class Agent:
         :param tweet: Tweet
         :return: None
         """
-        DEFAULT_MODIFIER = 0.01
+        DEFAULT_MODIFIER = 0.001
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
         # Decide whether to increase or decrease values based on tweet values.
         opinion_multiplier = -1 if (friendship_rating < 0 < tweet.opinion_rating) or (tweet.opinion_rating < 0 < friendship_rating) else 1
         friendship_multiplier = -1 if (tweet.opinion_rating < 0 < self.opinion_rating) or (self.opinion_rating < 0 < tweet.opinion_rating) else 1
 
-        opinion_modifier = DEFAULT_MODIFIER * opinion_multiplier
-        friendship_modifier = DEFAULT_MODIFIER * friendship_multiplier
+        # The higher the friendship rating the greater the effect on the opinion
+        opinion_affector = abs(friendship_rating) / 1000
+        # The closer the opinion ratings the smaller the effect
+        opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
+        friendship_affector = limit_values(opinion_difference / 1000, upper=0.001, lower=-0.001)
+
+        opinion_modifier = (DEFAULT_MODIFIER + opinion_affector) * opinion_multiplier
+        friendship_modifier = (DEFAULT_MODIFIER + friendship_affector) * friendship_multiplier
 
         updated_friendship_value = limit_values(friendship_rating + friendship_modifier)
+        updated_opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
         self.friendship_values.update({tweet.sender.id: updated_friendship_value})
-        self.opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
+        self.opinion_rating = updated_opinion_rating
 
     def output_data(self):
         data = {'opinion_rating': self.opinion_rating}
