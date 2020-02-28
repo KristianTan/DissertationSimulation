@@ -47,13 +47,17 @@ class Agent:
         friendship_multiplier = -1 if (tweet.opinion_rating < 0 < self.opinion_rating) or (self.opinion_rating < 0 < tweet.opinion_rating) else 1
 
         # The higher the friendship rating the greater the effect on the opinion
-        opinion_affector = abs(friendship_rating) / 1000
-        # The closer the opinion ratings the smaller the effect
-        opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
-        friendship_affector = limit_values(opinion_difference / 1000, upper=0.001, lower=-0.001)
+        opinion_effector = abs(friendship_rating) / 1000
 
-        opinion_modifier = (DEFAULT_MODIFIER + opinion_affector) * opinion_multiplier
-        friendship_modifier = (DEFAULT_MODIFIER + friendship_affector) * friendship_multiplier
+        # The closer the opinion ratings the bigger the effect on friendship ratings
+        opinion_difference = abs(self.opinion_rating - tweet.opinion_rating)
+
+        opinion_difference_squared = opinion_difference ** 2
+        friendship_effector_mapped = 1 - (opinion_difference_squared / 2)
+        friendship_effector = friendship_effector_mapped / 1000
+
+        opinion_modifier = (DEFAULT_MODIFIER + opinion_effector) * opinion_multiplier
+        friendship_modifier = (DEFAULT_MODIFIER + friendship_effector) * friendship_multiplier
 
         updated_friendship_value = limit_values(friendship_rating + friendship_modifier)
         updated_opinion_rating = limit_values(self.opinion_rating + opinion_modifier)
