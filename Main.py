@@ -9,6 +9,7 @@ if __name__ == '__main__':
     file = open('input/seed')
     file_lines = [line for line in file.readlines() if line.strip()]
     file.close()
+    agents = None
 
     # Check that file is not empty
     if file_lines:
@@ -25,5 +26,7 @@ if __name__ == '__main__':
             agents.append(Agent(i, opinion_rating, friendship_values))
 
     print('Beginning simulation')
-    environment = Environment(10, agents)
+    if agents is not None:
+        environment = Environment(10, agents)
+    environment = Environment(10)
     environment.run()
