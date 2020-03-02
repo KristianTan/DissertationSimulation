@@ -8,8 +8,9 @@ def limit_values(value, upper: float = 1, lower: float = -1):
 
 
 class Agent:
-    def __init__(self, id):
-        self.opinion_rating = random.uniform(-1, 1)
+    def __init__(self, id, opinion_rating=None, friendship_values=None):
+        self.opinion_rating = opinion_rating if opinion_rating is not None else random.uniform(-1, 1)
+        self.initial_friendships = friendship_values if friendship_values is not None else None
         self.friendship_values = {}
         self.id = "agent" + str(id)
 
@@ -19,11 +20,19 @@ class Agent:
         :param population: List
         :return: None
         """
-        for agent in population:
-            if agent is not self:
-                self.friendship_values[agent.id] = random.uniform(-1, 1)
-            else:
-                self.friendship_values[agent.id] = 1
+        if self.initial_friendships is None:
+            for agent in population:
+                if agent is not self:
+                    self.friendship_values[agent.id] = random.uniform(-1, 1)
+                else:
+                    self.friendship_values[agent.id] = 1
+        else:
+            for i in range (0, len(population)):
+                agent = population[i]
+                if agent is not self:
+                    self.friendship_values[agent.id] = self.initial_friendships[i]
+                else:
+                    self.friendship_values[agent.id] = 1
 
         # Output initial data and column titles to a csv
         data = {'opinion_rating': self.opinion_rating}
