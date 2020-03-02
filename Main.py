@@ -1,4 +1,5 @@
 from Environment import Environment
+from Agent import Agent
 import pandas as pd
 import glob
 
@@ -11,19 +12,18 @@ if __name__ == '__main__':
 
     # Check that file is not empty
     if file_lines:
-        initial_size = int(file_lines[0].replace('\n', ''))
-        del file_lines[0]
+        # initial_size = int(file_lines[0].replace('\n', ''))
+        # del file_lines[0]
         agents = []
-        for line in file_lines:
+        for i in range (0, len(file_lines)):
+            line = file_lines[i]
             line = line.replace('\n', '')
             agent_values = line.split('[')
-            opinion = agent_values[0]
+            opinion_rating = float(agent_values[0])
             friendship_values_strings = str(agent_values[1])[:-1].split(',')
             friendship_values = list(map(float, friendship_values_strings))
-            # TODO: Be able to pass initial values to Agent constructor. Be able to handle instance where some friendship values are not passed.  i.e. initsl pop = 10 but only passed 5 friendship values
-            # Pass list of values or agents to Environment constructor.  Probably Agents?
-            # TODO: Be able to pass list of initialised agents to Environment constructor.  Be able to handle missing friendship values and not enough agents in list
+            agents.append(Agent(i, opinion_rating, friendship_values))
 
     print('Beginning simulation')
-    environment = Environment(10)
+    environment = Environment(10, agents)
     environment.run()
