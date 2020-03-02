@@ -6,9 +6,9 @@ from Tweet import Tweet
 
 
 class Environment:
-    def __init__(self, initial_population_size):
+    def __init__(self, initial_population_size=10, agents=None):
         self.iterations = 0
-        self.population = [Agent(i) for i in range(initial_population_size)]
+        self.population = agents if agents is not None else [Agent(i) for i in range(initial_population_size)]
         for agent in self.population:
             agent.initialise_friendship_values(self.population)
 
