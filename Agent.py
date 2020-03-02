@@ -10,9 +10,12 @@ def limit_values(value, upper: float = 1, lower: float = -1):
 class Agent:
     def __init__(self, id, opinion_rating=None, friendship_values=None):
 
-        try:
-            self.opinion_rating = float(opinion_rating)
-        except ValueError:
+        if opinion_rating is not None:
+            try:
+                self.opinion_rating = float(opinion_rating)
+            except ValueError:
+                self.opinion_rating = random.uniform(-1, 1)
+        else:
             self.opinion_rating = random.uniform(-1, 1)
 
         self.initial_friendships = friendship_values if friendship_values is not None else None
