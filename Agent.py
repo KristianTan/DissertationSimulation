@@ -91,6 +91,11 @@ class Agent:
         self.opinion_rating = updated_opinion_rating
 
     def output_data(self, tweet):
+        """
+        Outputs the agent's friendship ratings and opinion rating to a CSV each iteration
+        :param tweet: Tweet
+        :return: None
+        """
         data = {'opinion_rating': self.opinion_rating}
 
         for key in self.friendship_values:

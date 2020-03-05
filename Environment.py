@@ -38,4 +38,8 @@ class Environment:
             print('Simulation ended')
 
     def select_tweeter(self):
+        """
+        Select a random agent from the population to tweet
+        :return: Agent
+        """
         return self.population[randint(0, len(self.population) - 1)]
