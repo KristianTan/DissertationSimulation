@@ -15,7 +15,10 @@ if __name__ == '__main__':
             line = line.replace('\n', '')
             agent_values = line.split('[')
             opinion_rating = agent_values[0]
-            friendship_values_strings = str(agent_values[1])[:-1].split(',')
+            try:
+                friendship_values_strings = str(agent_values[1])[:-1].split(',')
+            except IndexError:
+                friendship_values_strings = []
             agents.append(Agent(i, opinion_rating, friendship_values_strings))
 
     print('Beginning simulation')
