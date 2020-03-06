@@ -39,9 +39,12 @@ class Agent:
                 agent = population[i]
                 if agent is not self:
                     # If friendship value is missing or is not a valid float, generate a random friendship value
-                    try:
-                        self.friendship_values[agent.id] = float(self.initial_friendships[i])
-                    except ValueError:
+                    if i < len(self.initial_friendships):
+                        try:
+                            self.friendship_values[agent.id] = float(self.initial_friendships[i])
+                        except ValueError:
+                            self.friendship_values[agent.id] = random.uniform(-1, 1)
+                    else:
                         self.friendship_values[agent.id] = random.uniform(-1, 1)
                 else:
                     self.friendship_values[agent.id] = 1
