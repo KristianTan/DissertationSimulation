@@ -35,16 +35,13 @@ class Agent:
                 else:
                     self.friendship_values[agent.id] = 1
         else:
-            for i in range (0, len(population)):
+            for i in range(0, len(population)):
                 agent = population[i]
                 if agent is not self:
                     # If friendship value is missing or is not a valid float, generate a random friendship value
-                    if i < len(self.initial_friendships):
-                        try:
-                            self.friendship_values[agent.id] = float(self.initial_friendships[i])
-                        except ValueError:
-                            self.friendship_values[agent.id] = random.uniform(-1, 1)
-                    else:
+                    try:
+                        self.friendship_values[agent.id] = float(self.initial_friendships[i])
+                    except (ValueError, IndexError):
                         self.friendship_values[agent.id] = random.uniform(-1, 1)
                 else:
                     self.friendship_values[agent.id] = 1
@@ -57,7 +54,7 @@ class Agent:
 
         data['tweeter'] = None
         data['tweet_rating'] = None
-          
+
         data_frame = pandas.DataFrame(data=data, index=[0])
         data_frame.to_csv('logs/' + str(self.id) + '.csv', header=True, mode='w', index=False)
 
@@ -72,8 +69,10 @@ class Agent:
         friendship_rating = self.friendship_values.get(tweet.sender.id)
 
         # Decide whether to increase or decrease values based on tweet values.
-        opinion_multiplier = -1 if (friendship_rating < 0 < tweet.opinion_rating) or (tweet.opinion_rating < 0 < friendship_rating) else 1
-        friendship_multiplier = -1 if (tweet.opinion_rating < 0 < self.opinion_rating) or (self.opinion_rating < 0 < tweet.opinion_rating) else 1
+        opinion_multiplier = -1 if (friendship_rating < 0 < tweet.opinion_rating) or (
+                    tweet.opinion_rating < 0 < friendship_rating) else 1
+        friendship_multiplier = -1 if (tweet.opinion_rating < 0 < self.opinion_rating) or (
+                    self.opinion_rating < 0 < tweet.opinion_rating) else 1
 
         # The higher the friendship rating the greater the effect on the opinion
         opinion_effector = abs(friendship_rating) / 1000
@@ -110,4 +109,3 @@ class Agent:
         data_frame = pandas.DataFrame(data=data, index=[0])
         data_frame.to_csv('logs/' + str(self.id) + '.csv', header=False, mode='a', index=False)
         print(data_frame)
-

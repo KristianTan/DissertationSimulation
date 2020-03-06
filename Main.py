@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # Check that file is not empty
     if file_lines:
         agents = []
-        for i in range (0, len(file_lines)):
+        for i in range(0, len(file_lines)):
             line = file_lines[i]
             line = line.replace('\n', '')
             agent_values = line.split('[')
